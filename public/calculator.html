@@ -112,6 +112,31 @@
                 $('#simple-weekly-earnings').text(`₹${weeklyEarnings.toFixed(2)}`);
                 $('#simple-monthly-earnings').text(`₹${monthlyEarnings.toFixed(2)}`);
             });
+
+            // Inside the existing script tag
+
+            // Calculate earnings for the Week tab
+            $('#week-form').submit(function (e) {
+                e.preventDefault();
+                const hourlyRate = 50;
+
+                // Get hours for each day of the week
+                const mondayHours = parseFloat($('#monday-hours').val()) || 0;
+                const tuesdayHours = parseFloat($('#tuesday-hours').val()) || 0;
+                const wednesdayHours = parseFloat($('#wednesday-hours').val()) || 0;
+                const thursdayHours = parseFloat($('#thursday-hours').val()) || 0;
+                const fridayHours = parseFloat($('#friday-hours').val()) || 0;
+                const saturdayHours = parseFloat($('#saturday-hours').val()) || 0;
+                const sundayHours = parseFloat($('#sunday-hours').val()) || 0;
+
+                // Calculate total weekly hours and earnings
+                const totalWeeklyHours = mondayHours + tuesdayHours + wednesdayHours + thursdayHours + fridayHours + saturdayHours + sundayHours;
+                const weeklyEarnings = hourlyRate * totalWeeklyHours;
+
+                $('#week-total-hours').text(`${totalWeeklyHours.toFixed(2)} hours`);
+                $('#week-earnings').text(`₹${weeklyEarnings.toFixed(2)}`);
+            });
+
         });
     </script>
 </body>

@@ -45,8 +45,6 @@
             </div>
 
             <!-- Week Tab -->
-            <!-- Week Tab -->
-            <!-- Week Tab -->
             <div id="week" class="tab-pane fade">
                 <h2>Weekly Earnings Calculator</h2>
                 <form id="week-form">
@@ -96,7 +94,16 @@
 
             <!-- Month Tab -->
             <div id="month" class="tab-pane fade">
-                <!-- Month tab content goes here -->
+                <h4 class="mt-5">Hours per Day for Each Day of the Month</h4>
+                <form id="month-daily-hours-form">
+                    <div class="form-row" id="day-fields-container">
+                        <!-- Day form fields will be generated here -->
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Calculate</button>
+                </form>
+                <p class="mt-3">Total Hours for the Month: <span id="month-total-daily-hours"></span></p>
+                <p>Total Earnings for the Month: <span id="month-total-daily-earnings"></span></p>
+
             </div>
         </div>
     </div>
@@ -145,6 +152,38 @@
                 $('#week-earnings').text(`₹${weeklyEarnings.toFixed(2)}`);
             });
 
+            // Generate day form fields dynamically
+            const daysInMonth = 30; // Assuming 30 days in a month
+            const $dayFieldsContainer = $('#day-fields-container');
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayField = `
+      <div class="form-group"><div class="col">
+        <label for="day${day}-hours">Day ${day} Hours:</label>
+        <input type="number" class="form-control" id="day${day}-hours" placeholder="Enter hours" step="0.25" >
+      </div>
+    `;
+                $dayFieldsContainer.append(dayField);
+            }
+
+            // Subsection 3.3: Calculate total hours and total earnings for each day of the month
+            $('#month-daily-hours-form').submit(function (e) {
+                e.preventDefault();
+
+                let totalHours = 0;
+                const hourlyRate = 50;
+
+                // Loop through each day's form field and calculate total hours and earnings
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const hours = parseFloat($(`#day${day}-hours`).val()) || 0;
+                    totalHours += hours;
+                }
+
+                const totalEarnings = totalHours * hourlyRate;
+
+                $('#month-total-daily-hours').text(`${totalHours.toFixed(2)} hours`);
+                $('#month-total-daily-earnings').text(`₹${totalEarnings.toFixed(2)}`);
+            });
         });
     </script>
 </body>
